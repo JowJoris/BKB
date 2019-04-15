@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BKB Overzicht</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+      <table>
+        <tr>
+          <th v-for="header in headers"> {{ header }} </th>
+        </tr>
+        <tr v-for="drinker in drinkers">
+          <td>{{drinker.Naam}}</td>
+          <td>{{drinker.Aanwezig_Volledig}}</td>
+          <td>{{drinker.Aanwezig_Gedeeltelijk}}</td>
+          <td>{{drinker.Aanwezig_Even}}</td>
+          <td>{{drinker.Kosten}}</td>
+          <td>{{drinker.Betaald}}</td>
+          <td>{{drinker.Totaal}}</td>
+        </tr>
+      </table>
+      <p> Betalen kan op het volgende rekening nummer: </p>
+      <h2> NL 92 SNSB 0948 1196 67 </h2>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="main.js"></script>
+  <script src="sheet.js"></script>
+</html>
