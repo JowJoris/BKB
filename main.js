@@ -21,7 +21,7 @@ let app = new Vue({
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.headersDrinkers = getHeaders(entry);
-      self.drinkers = getDrinkers(entry, self.headers);
+      self.drinkers = getDrinkers(entry, self.headersDrinkers);
     })
 
     //Aanwezig lijst
@@ -29,7 +29,7 @@ let app = new Vue({
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.headersAanwezigen = getHeaders(entry);
-      self.aanwezigen = getAanwezigen(entry, self.headers);
+      self.aanwezigen = getAanwezigen(entry, self.headersAanwezigen);
     })
 
     //Schuldeisers
@@ -37,7 +37,7 @@ let app = new Vue({
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.headersSchuldeisers = getHeaders(entry);
-      self.schuldeisers = getEisers(entry, self.headers);
+      self.schuldeisers = getEisers(entry, self.headersSchuldeisers);
     })
   }
 })
