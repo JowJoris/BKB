@@ -1,6 +1,7 @@
 let lijst = 1;
 let aanwezig = 2;
 let onkosten = 3;
+let balans = 4;
 
 let app = new Vue({
   el: '#app',
@@ -11,6 +12,8 @@ let app = new Vue({
     aanwezigen: [],
     headersSchuldeisers: [],
     schuldeisers: [],
+    headersBalans: [],
+    balans: [],
   },
   mounted() {
     let url;
@@ -38,6 +41,14 @@ let app = new Vue({
       let entry = data.feed.entry;
       self.headersSchuldeisers = getHeaders(entry);
       self.schuldeisers = getEisers(entry, self.headersSchuldeisers);
+    })
+
+    //Balans
+    url = createUrl(balans);
+    $.getJSON(url, function(data) {
+      let entry = data.feed.entry;
+      self.headersBalans = getHeaders(entry);
+      self.balans = getEisers(entry, self.headersBalans);
     })
   }
 })
