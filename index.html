@@ -16,27 +16,31 @@
   <div id="app">
     <div class="card-panel teal lighten-2">
       <div class="card-panel">
-        <h2> Gezopen lijst </h2>
+        <h2> Gezopen lijst 🍻</h2>
         <table>
           <tr>
             <th v-for="header in headersDrinkers"> {{ header.replace('_', ' ') }} </th>
           </tr>
           <tr v-for="drinker in drinkers" v-if="drinker.Totaal.replace('€','').replace(',','.') > 0">
             <td>{{drinker.Naam}}</td>
-            <td>{{drinker.Aanwezig_Volledig}}</td>
-            <td>{{drinker.Aanwezig_Gedeeltelijk}}</td>
-            <td>{{drinker.Aanwezig_Even}}</td>
+            <td>{{drinker.Aanwezig_Vol}}</td>
+            <td>{{drinker.Aanwezig_Half}}</td>
+            <td>{{drinker.Aanwezig_Kort}}</td>
             <td>{{drinker.Kosten}}</td>
             <td>{{drinker.Betaald}}</td>
             <td>{{drinker.Totaal}}</td>
           </tr>
         </table>
       </div>
-      <p class="center-align" style="color:white">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten!</p>
+      <h6 class="center-align" style="color:white">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten! 🍻</h6>
     </div>
     <div class="container">
-      <p class="center-align"> Betalen kan op het volgende rekening nummer: </p>
+      <h6 class="center-align"> Betalen kan op het volgende rekening nummer: </h6>
       <h3 class=" center-align card panel teal lighten-2" style="color: white"> NL 92 SNSB 0948 1196 67 </h2>
+      <h6 class="center-align">
+        Wanneer je geld op onze rekening staat wijzigen we de spreadsheet.
+        <br>
+        Je hoeft dus niet te appen om te vragen of je geld er al op staat 😉.</h6>
     </div>
   </div>
 
