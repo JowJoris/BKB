@@ -11,7 +11,7 @@
   <div id="app">
       <table>
         <tr>
-          <th v-for="header in headers"> {{ header }} </th>
+          <th v-for="header in headers"> {{ header.replace(‘_’,’ ‘)}} </th>
         </tr>
         <tr v-for="drinker in drinkers">
           <td>{{drinker.Naam}}</td>
