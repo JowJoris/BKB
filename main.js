@@ -5,26 +5,48 @@ let onkosten = 3;
 let app = new Vue({
   el: '#app',
   data: {
-    headers: [],
-    drinkers: []
+    headersDrinkers: [],
+    drinkers: [],
+    headersAanwezigen: [],
+    aanwezigen: [],
+    headersSchuldeisers: [],
+    schuldeisers: [],
   },
   mounted() {
+    let url;
     let self = this;
-    let url = createUrl(lijst);
+
+    //Gezopen lijst
+    url = createUrl(lijst);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
-
-      self.headers = getHeaders(entry);
+      self.headersDrinkers = getHeaders(entry);
       self.drinkers = getDrinkers(entry, self.headers);
+    })
+
+    //Aanwezig lijst
+    url = createUrl(aanwezig);
+    $.getJSON(url, function(data) {
+      let entry = data.feed.entry;
+      self.headersAanwezigen = getHeaders(entry);
+      self.aanwezigen = getAanwezigen(entry, self.headers);
+    })
+
+    //Schuldeisers
+    url = createUrl(onkosten);
+    $.getJSON(url, function(data) {
+      let entry = data.feed.entry;
+      self.headersSchuldeisers = getHeaders(entry);
+      self.schuldeisers = getEisers(entry, self.headers);
     })
   }
 })
 
-function createUrl(tab){
-  return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/'+ tab +'/public/values?alt=json';
+function createUrl(tab) {
+  return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
 }
 
-function getHeaders (entry) {
+function getHeaders(entry) {
   let headers = [];
 
   //Get values of headers
@@ -36,7 +58,7 @@ function getHeaders (entry) {
   return headers;
 }
 
-function getDrinkers (entry, headers) {
+function getDrinkers(entry, headers) {
   let drinkers = [];
 
   //Starts at 2 because headers are at number 1
@@ -51,7 +73,7 @@ function getDrinkers (entry, headers) {
       //For loop to get content of correspondig cell
       for (let i = 0; i < entry.length; i++) {
         if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
-          var header = headers[col-1];
+          var header = headers[col - 1];
           drinker[header] = entry[i].content.$t;
         }
       }
@@ -61,7 +83,7 @@ function getDrinkers (entry, headers) {
     if (drinker.Naam == null) {
       delete drinker;
     } else {
-      drinker.Naam = drinker.Naam.replace('.','');
+      drinker.Naam = drinker.Naam.replace('.', '');
       drinkers.push(drinker);
     }
   }
