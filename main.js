@@ -30,7 +30,7 @@ function getHeaders (entry) {
   //Get values of headers
   for (let i = 0; i < entry.length; i++) {
     if (entry[i].gs$cell.row == 1) {
-      headers.push(entry[i].content.$t.replace('_',' '));
+      headers.push(entry[i].content.$t);
     }
   }
   return headers;
