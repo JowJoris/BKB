@@ -5,8 +5,7 @@ let onkosten = 3;
 let app = new Vue({
   el: '#app',
   data: {
-    drinkers: [],
-    dates: []
+    drinkers: []
   },
   mounted() {
     let url;
@@ -26,38 +25,17 @@ function createUrl(tab) {
 }
 
 
-function getDrinkers(entry, headers) {
+function getDrinkers(entry) {
   let drinkers = [];
-
-  //Starts at 2 because headers are at number 1
-  for (let row = 2; row < entry.length; row++) {
-
-    //Store the values of a 'drinker' in an object
-    var drinker = new Object();
-
-    //Number of values are equal to size of headers
-    for (let col = 1; col <= headers.length; col++) {
-
-      //For loop to get content of correspondig cell
-      for (let i = 0; i < entry.length; i++) {
-        if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
-          var header = headers[col - 1];
-          drinker[header] = entry[i].content.$t;
-        }
-      }
-    }
-
-    //If 'drinker' has no name value, that means he doesn't exist and gets deleted
-    if (drinker.Naam == null) {
-      delete drinker;
-    } else {
-      drinker.Naam = drinker.Naam.replace('.', '');
-      drinkers.push(drinker);
-    }
-  }
+  for(let i=0; i < )
+  let drinker = new Object();
+  drinker[naam] = getNaam
   return drinkers;
 }
 
-function countHeaders(entry) {
-
+function countRows(entry) {
+  let rows = 0;
+  for(let row = 1; row <= entry.length; row++) {
+    if (entry.)
+  }
 }

@@ -29,9 +29,9 @@
           </tr>
           <tr v-for="drinker in drinkers" v-if="drinker.Totaal.replace('€','').replace(',','.') > 0">
             <td>{{drinker.Naam}}</td>
-            <td>{{drinker.Aanwezig_Vol}}</td>
-            <td>{{drinker.Aanwezig_Half}}</td>
-            <td>{{drinker.Aanwezig_Kort}}</td>
+            <td>{{drinker.Vol}}</td>
+            <td>{{drinker.Half}}</td>
+            <td>{{drinker.Kort}}</td>
             <td>{{drinker.Kosten}}</td>
             <td>{{drinker.Betaald}}</td>
             <td>{{drinker.Totaal}}</td>
