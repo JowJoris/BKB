@@ -25,16 +25,17 @@
             <th> Kort </th>
             <th> Kosten </th>
             <th> Betaald </th>
-            <th> Totaal </th>
+            <th> Total </th>
           </tr>
-          <tr v-for="drinker in drinkers" v-if="drinker.Totaal.replace('€','').replace(',','.') > 0">
+          <tr v-for="drinker in drinkers">
+            <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
             <td>{{drinker.naam}}</td>
-            <td>{{drinker.Vol}}</td>
-            <td>{{drinker.Half}}</td>
-            <td>{{drinker.Kort}}</td>
-            <td>{{drinker.Kosten}}</td>
-            <td>{{drinker.Betaald}}</td>
-            <td>{{drinker.Totaal}}</td>
+            <td>{{drinker.vol}}</td>
+            <td>{{drinker.half}}</td>
+            <td>{{drinker.kort}}</td>
+            <td>{{drinken.kosten}}</td>
+            <td>{{drinker.betaald}}</td>
+            <td>{{drinker.totaal}}</td>
           </tr>
         </table>
       </div>

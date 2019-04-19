@@ -5,7 +5,7 @@ let onkosten = 3;
 let app = new Vue({
   el: '#app',
   data: {
-    drinkers: []
+    drinkers: [],
   },
   mounted() {
     let url;
@@ -27,28 +27,41 @@ function createUrl(tab) {
 
 function getDrinkers(entry) {
   let drinkers = [];
-  for (let i = 0; i < countRows(entry); i++) {
+  for (let i = 2; i <= countRows(entry); i++) {
     let drinker = new Object();
     drinker[naam] = getNaam(entry, i);
 
-    drinkers.push.
+    drinkers.push(drinker);
   }
   return drinkers;
 }
 
 function getNaam(entry, i) {
   let naam;
-    for()
+  for (let j = 0; j <= entry.length; j++) {
+    if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
+      naam = entry[j].gs$cell.$t;
+    }
   }
   return naam;
 }
 
 function countRows(entry) {
-  let rows = 0;
+  let rows;
   for (let row = 1; row <= entry.length; row++) {
-    if (entry[row].gs$cell.row == row) {
+    if (entry[row].gs$cell.row > rows) {
       rows = entry[row].gs$cell.row;
     }
   }
   return rows;
+}
+
+function countDates(entry) {
+  let dates;
+  for (let date = 1; date < entry.length; date++) {
+    if (entry[date].gs$cell.col > dates) {
+      dates = entry[date].gs$cell.col;
+    }
+  }
+  return dates;
 }
