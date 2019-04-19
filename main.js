@@ -27,15 +27,28 @@ function createUrl(tab) {
 
 function getDrinkers(entry) {
   let drinkers = [];
-  for(let i=0; i < )
-  let drinker = new Object();
-  drinker[naam] = getNaam
+  for (let i = 0; i < countRows(entry); i++) {
+    let drinker = new Object();
+    drinker[naam] = getNaam(entry, i);
+
+    drinkers.push.
+  }
   return drinkers;
+}
+
+function getNaam(entry, i) {
+  let naam;
+    for()
+  }
+  return naam;
 }
 
 function countRows(entry) {
   let rows = 0;
-  for(let row = 1; row <= entry.length; row++) {
-    if (entry.)
+  for (let row = 1; row <= entry.length; row++) {
+    if (entry[row].gs$cell.row == row) {
+      rows = entry[row].gs$cell.row;
+    }
   }
+  return rows;
 }
