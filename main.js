@@ -29,8 +29,7 @@ function getDrinkers(entry) {
   let drinkers = [];
   for (let i = 2; i <= countRows(entry); i++) {
     let drinker = new Object();
-    drinker[naam] = getNaam(entry, i);
-
+    drinker.naam = getNaam(entry, i);
     drinkers.push(drinker);
   }
   return drinkers;
@@ -40,7 +39,7 @@ function getNaam(entry, i) {
   let naam;
   for (let j = 0; j <= entry.length; j++) {
     if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
-      naam = entry[j].gs$cell.$t;
+      naam = entry[j].content.$t;
     }
   }
   return naam;
@@ -58,7 +57,7 @@ function countRows(entry) {
 
 function countDates(entry) {
   let dates;
-  for (let date = 1; date < entry.length; date++) {
+  for (let date = 1; date <= entry.length; date++) {
     if (entry[date].gs$cell.col > dates) {
       dates = entry[date].gs$cell.col;
     }
