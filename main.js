@@ -8,7 +8,6 @@ let app = new Vue({
     rows: 0,
     dates: 0,
     drinkers: [],
-    spreadsheet: [],
   },
   mounted() {
     let url;
@@ -18,7 +17,8 @@ let app = new Vue({
     url = createUrl(aanwezig);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
-      self.spreadsheet = getSpreadsheetInfo(entry);
+      self.rows = countRows(entry);
+      self.dates = countDates(entry);
       self.drinkers = getDrinkers(entry);
     })
   }
@@ -28,21 +28,11 @@ function createUrl(tab) {
   return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
 }
 
-function getSpreadsheetInfo(entry) {
-  let spreadsheet =[];
-  let rows = countRows(entry);
-  let dates = countDates(entry);
-  spreadsheet.push(rows);
-  spreadsheet.push (dates);
-  return spreadsheet;
-}
-
-
 function getDrinkers(entry) {
   let drinkers = [];
-  for (let i = 2; i <= countRows(entry); i++) {
+  for (let i = 2; i < rows; i++) {
     let drinker = new Object();
-    drinker.naam = getNaam(entry, i);
+    drinker.naam = 'hoi';//getNaam(entry, i);
     drinkers.push(drinker);
   }
   return drinkers;
@@ -50,7 +40,7 @@ function getDrinkers(entry) {
 
 function getNaam(entry, i) {
   let naam;
-  for (let j = 0; j <= entry.length; j++) {
+  for (let j = 0; j < rows; j++) {
     if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
       naam = entry[j].content.$t;
     }
@@ -60,7 +50,7 @@ function getNaam(entry, i) {
 
 function countRows(entry) {
   let rows = 0;
-  for (let row = 1; row <= entry.length; row++) {
+  for (let row = 1; row < entry.length; row++) {
     if (entry[row].gs$cell.row > rows) {
       rows = parseInt(entry[row].gs$cell.row);
     }
@@ -70,8 +60,7 @@ function countRows(entry) {
 
 function countDates(entry) {
   let dates = 0;
-  alert(dates);
-  for (let date = 1; date <= entry.length; date++) {
+  for (let date = 1; date < entry.length; date++) {
     if (entry[date].gs$cell.col > dates) {
       dates = parseInt(entry[date].gs$cell.col);
     }
