@@ -32,7 +32,7 @@ function getDrinkers(entry) {
   let drinkers = [];
   for (let i = 2; i < countRows(entry); i++) {
     let drinker = new Object();
-    drinker.naam = 'hoi';//getNaam(entry, i);
+    drinker.naam = getNaam(entry, i);
     drinkers.push(drinker);
   }
   return drinkers;
@@ -40,7 +40,7 @@ function getDrinkers(entry) {
 
 function getNaam(entry, i) {
   let naam;
-  for (let j = 0; j < countRows(entry); j++) {
+  for (let j = 2; j < countRows(entry); j++) {
     if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
       naam = entry[j].content.$t;
     }
