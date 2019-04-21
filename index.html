@@ -23,20 +23,14 @@
             <th> Half </th>
             <th> Kort </th>
             <th> Kosten </th>
-            <th> Beaald </th>
+            <th> Betaald </th>
             <th> Totaal </th>
-            <th> {{spreadsheet.rows}} </th>
-            <th> {{spreadsheet.dates}} </th>
+            <th> {{rows}} </th>
+            <th> {{dates}} </th>
           </tr>
           <tr v-for="drinker in drinkers">
             <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
             <td>{{drinker.naam}}</td>
-            <td>{{drinker.vol}}</td>
-            <td>{{drinker.half}}</td>
-            <td>{{drinker.kort}}</td>
-            <td>{{drinken.kosten}}</td>
-            <td>{{drinker.betaald}}</td>
-            <td>{{drinker.totaal}}</td>
           </tr>
         </table>
       </div>
