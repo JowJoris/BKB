@@ -30,7 +30,7 @@ function createUrl(tab) {
 
 function getDrinkers(entry) {
   let drinkers = [];
-  for (let i = 2; i < rows; i++) {
+  for (let i = 2; i < self.rows; i++) {
     let drinker = new Object();
     drinker.naam = 'hoi';//getNaam(entry, i);
     drinkers.push(drinker);
