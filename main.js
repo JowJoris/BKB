@@ -5,7 +5,10 @@ let onkosten = 3;
 let app = new Vue({
   el: '#app',
   data: {
+    rows: 0,
+    dates: 0,
     drinkers: [],
+    spreadsheet: [],
   },
   mounted() {
     let url;
@@ -15,6 +18,7 @@ let app = new Vue({
     url = createUrl(aanwezig);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
+      self.spreadsheet = getSpreadsheetInfo(entry);
       self.drinkers = getDrinkers(entry);
     })
   }
@@ -22,6 +26,15 @@ let app = new Vue({
 
 function createUrl(tab) {
   return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
+}
+
+function getSpreadsheetInfo(entry) {
+  let spreadsheet =[];
+  let rows = countRows(entry);
+  let dates = countDates(entry);
+  spreadsheet.push(rows);
+  spreadsheet.push (dates);
+  return spreadsheet;
 }
 
 
@@ -46,20 +59,21 @@ function getNaam(entry, i) {
 }
 
 function countRows(entry) {
-  let rows;
+  let rows = 0;
   for (let row = 1; row <= entry.length; row++) {
     if (entry[row].gs$cell.row > rows) {
-      rows = entry[row].gs$cell.row;
+      rows = parseInt(entry[row].gs$cell.row);
     }
   }
   return rows;
 }
 
 function countDates(entry) {
-  let dates;
+  let dates = 0;
+  alert(dates);
   for (let date = 1; date <= entry.length; date++) {
     if (entry[date].gs$cell.col > dates) {
-      dates = entry[date].gs$cell.col;
+      dates = parseInt(entry[date].gs$cell.col);
     }
   }
   return dates;

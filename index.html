@@ -23,8 +23,10 @@
             <th> Half </th>
             <th> Kort </th>
             <th> Kosten </th>
-            <th> Betaald </th>
+            <th> Beaald </th>
             <th> Totaal </th>
+            <th> {{spreadsheet.rows}} </th>
+            <th> {{spreadsheet.dates}} </th>
           </tr>
           <tr v-for="drinker in drinkers">
             <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
