@@ -40,7 +40,7 @@ function getDrinkers(entry) {
 
 function getNaam(entry, i) {
   let naam;
-  for (let j = 0; j < rows; j++) {
+  for (let j = 0; j < self.rows; j++) {
     if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
       naam = entry[j].content.$t;
     }
