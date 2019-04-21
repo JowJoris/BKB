@@ -30,7 +30,7 @@ function createUrl(tab) {
 
 function getDrinkers(entry) {
   let drinkers = [];
-  for (let i = 2; i < rows; i++) {
+  for (let i = 2; i < countRows(entry); i++) {
     let drinker = new Object();
     drinker.naam = 'hoi';//getNaam(entry, i);
     drinkers.push(drinker);
@@ -40,7 +40,7 @@ function getDrinkers(entry) {
 
 function getNaam(entry, i) {
   let naam;
-  for (let j = 0; j < rows; j++) {
+  for (let j = 0; j < countRows(entry); j++) {
     if (entry[j].gs$cell.row == i && entry[j].gs$cell.col == 1) {
       naam = entry[j].content.$t;
     }
