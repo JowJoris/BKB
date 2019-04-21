@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>BKB Overzicht</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -19,16 +18,25 @@
         <h2> Gezopen lijst 🍻</h2>
         <table>
           <tr>
-            <th v-for="header in headersDrinkers"> {{ header.replace('_', ' ') }} </th>
+            <th> Naam </th>
+            <th> Volledig </th>
+            <th> Half </th>
+            <th> Kort </th>
+            <th> Kosten </th>
+            <th> Beaald </th>
+            <th> Totaal </th>
+            <th> {{spreadsheet.rows}} </th>
+            <th> {{spreadsheet.dates}} </th>
           </tr>
-          <tr v-for="drinker in drinkers" v-if="drinker.Totaal.replace('€','').replace(',','.') > 0">
-            <td>{{drinker.Naam}}</td>
-            <td>{{drinker.Aanwezig_Vol}}</td>
-            <td>{{drinker.Aanwezig_Half}}</td>
-            <td>{{drinker.Aanwezig_Kort}}</td>
-            <td>{{drinker.Kosten}}</td>
-            <td>{{drinker.Betaald}}</td>
-            <td>{{drinker.Totaal}}</td>
+          <tr v-for="drinker in drinkers">
+            <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
+            <td>{{drinker.naam}}</td>
+            <td>{{drinker.vol}}</td>
+            <td>{{drinker.half}}</td>
+            <td>{{drinker.kort}}</td>
+            <td>{{drinken.kosten}}</td>
+            <td>{{drinker.betaald}}</td>
+            <td>{{drinker.totaal}}</td>
           </tr>
         </table>
       </div>
