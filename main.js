@@ -58,32 +58,32 @@ function getAanwezig(entry, naam) {
   let kort = 0;
   let row = 0;
   for (let i = 0; i < entry.length; i++) {
-    if (entry[i].content.t$ == naam) {
+    if (entry[i].content.$t == naam) {
       row = entry[i].gs$cell.row;
       break;
     }
   }
 
 
-for (let i = 0; i < entry.length; i++) {
-  for (let col = 2; col <= countCols(entry); col++) {
-    if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
-      if (entry[i].content.$t == 1) {
-        vol++;
-      }
-      if (entry[i].content.$t == 0.5) {
-        half++;
-      }
-      if (entry[i].content.$t == 0.25) {
-        kort++;
+  for (let i = 0; i < entry.length; i++) {
+    for (let col = 2; col <= countCols(entry); col++) {
+      if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
+        if (entry[i].content.$t == 1) {
+          vol++;
+        }
+        if (entry[i].content.$t == 0.5) {
+          half++;
+        }
+        if (entry[i].content.$t == 0.25) {
+          kort++;
+        }
       }
     }
   }
-}
-aanwezig.vol = vol;
-aanwezig.half = half;
-aanwezig.kort = kort;
-return aanwezig
+  aanwezig.vol = vol;
+  aanwezig.half = half;
+  aanwezig.kort = kort;
+  return aanwezig
 }
 
 function countRows(entry) {
