@@ -6,7 +6,8 @@ let app = new Vue({
   el: '#app',
   data: {
     rows: 0,
-    dates: 0,
+    cols: 0,
+    cell: 0,
     drinkers: [],
   },
   mounted() {
@@ -18,7 +19,7 @@ let app = new Vue({
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.rows = countRows(entry);
-      self.dates = countDates(entry);
+      self.cols = countCols(entry);
       self.drinkers = getDrinkers(entry);
     })
   }
@@ -30,50 +31,61 @@ function createUrl(tab) {
 
 function getDrinkers(entry) {
   let drinkers = [];
-  for (let i = 2; i <= countRows(entry); i++) {
+  for (let row = 2; row <= countRows(entry); row++) {
     let drinker = new Object();
-    drinker.naam = getNaam(entry, i);
-    drinker.aanwezig = getAanwezig(entry, i);
+    drinker.naam = getNaam(entry, row);
+    drinker.aanwezig = getAanwezig(entry, drinker.naam);
     drinkers.push(drinker);
   }
   return drinkers;
 }
 
-function getNaam(entry, i) {
+function getNaam(entry, row) {
   let naam;
-  for (let row = 2; row < entry.length; row++) { // TODO: Fix bug to look at length of countRows
-    if (entry[row].gs$cell.row == i && entry[row].gs$cell.col == 1) {
-      naam = entry[row].content.$t.replace('.', '');
+  for (let i = 0; i < entry.length; i++) {
+    if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == 1) {
+      naam = entry[i].content.$t;
+      break;
     }
   }
   return naam;
 }
 
-function getAanwezig(entry, i){
+function getAanwezig(entry, naam) {
   let aanwezig = [];
   let vol = 0;
   let half = 0;
   let kort = 0;
-  for (let row = 2; row < entry.length; row++){
-    for(let col = 2; col <entry.length; col++){
-      if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col){
-        if(parseInt(entry[i].gs$cell.$t) == 1){
-          vol++;
-        }
-        if (entry[i].content.$t == 0.5){
-          half++;
-        }
-        if(entry[i].content.$t == 0.25){
-          kort++;
-        }
+  let row = 0;
+  for (let i = 0; i < entry.length; i++) {
+    if (entry[i].content.t$ == naam) {
+      row = entry[i].gs$cell.row;
+      break;
+    }
+  }
+
+
+for (let i = 0; i < entry.length; i++) {
+  for (let col = 2; col <= countCols(entry); col++) {
+    if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
+      if (entry[i].content.$t == 1) {
+        vol++;
+      }
+      if (entry[i].content.$t == 0.5) {
+        half++;
+      }
+      if (entry[i].content.$t == 0.25) {
+        kort++;
       }
     }
-    aanwezig.vol = vol;
-    aanwezig.half = half;
-    aanwezig.kort = kort;
   }
-  return aanwezig
 }
+aanwezig.vol = vol;
+aanwezig.half = half;
+aanwezig.kort = kort;
+return aanwezig
+}
+
 function countRows(entry) {
   let rows = 0;
   for (let row = 1; row < entry.length; row++) {
@@ -84,12 +96,12 @@ function countRows(entry) {
   return rows;
 }
 
-function countDates(entry) {
-  let dates = 0;
-  for (let date = 1; date < entry.length; date++) {
-    if (entry[date].gs$cell.col > dates) {
-      dates = parseInt(entry[date].gs$cell.col);
+function countCols(entry) {
+  let cols = 0;
+  for (let col = 1; col < entry.length; col++) {
+    if (entry[col].gs$cell.col > cols) {
+      cols = parseInt(entry[col].gs$cell.col);
     }
   }
-  return dates;
+  return cols;
 }

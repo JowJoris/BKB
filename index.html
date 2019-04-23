@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>BKB Overzicht</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -23,12 +24,12 @@
             <th> Half </th>
             <th> Kort </th>
             <th> Kosten </th>
-            <th> Betald </th>
+            <th> Betaald </th>
             <th> Totaal </th>
           </tr>
           <tr v-for="drinker in drinkers">
             <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
-            <td>{{drinker.naam}}</td>
+            <td>{{drinker.naam.replace('.', '')}}</td>
             <td>{{drinker.aanwezig.vol}}</td>
             <td>{{drinker.aanwezig.half}}</td>
             <td>{{drinker.aanwezig.kort}}</td>
@@ -40,10 +41,10 @@
     <div class="container">
       <h6 class="center-align"> Betalen kan op het volgende rekening nummer: </h6>
       <h3 class=" center-align card panel teal lighten-2" style="color: white"> NL 92 SNSB 0948 1196 67 </h2>
-      <h6 class="center-align">
-        Wanneer je geld op onze rekening staat wijzigen we de spreadsheet.
-        <br>
-        Je hoeft dus niet te appen om te vragen of je geld er al op staat 😉.</h6>
+        <h6 class="center-align">
+          Wanneer je geld op onze rekening staat wijzigen we de spreadsheet.
+          <br>
+          Je hoeft dus niet te appen om te vragen of je geld er al op staat 😉.</h6>
     </div>
   </div>
 
