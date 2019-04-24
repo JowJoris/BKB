@@ -27,12 +27,14 @@
             <th> Betaald </th>
             <th> Totaal </th>
           </tr>
-          <tr v-for="drinker in drinkers">
-            <!-- v-if="drinker.totaal.replace('€','').replace(',','.') > 0" -->
+          <tr v-for="drinker in drinkers" v-if="drinker.totaal > 0">
             <td>{{drinker.naam.replace('.', '')}}</td>
             <td>{{drinker.aanwezig.vol}}</td>
             <td>{{drinker.aanwezig.half}}</td>
             <td>{{drinker.aanwezig.kort}}</td>
+            <td>€{{drinker.kosten.toFixed(2)}}</td>
+            <td>€{{drinker.betaald.toFixed(2)}}</td>
+            <td>€{{drinker.totaal.toFixed(2)}}</td>
           </tr>
         </table>
       </div>
