@@ -36,6 +36,15 @@
             <td>€{{drinker.betaald.toFixed(2)}}</td>
             <td>€{{drinker.totaal.toFixed(2)}}</td>
           </tr>
+          <tr>
+          <th> Totaal </th>
+          <th> {{totalen.vol}} </th>
+          <th> {{totalen.half}} </th>
+          <th> {{totalen.kort}} </th>
+          <th>€{{totalen.kosten.toFixed(2)}} </th>
+          <th>€{{totalen.betaald.toFixed(2)}} </th>
+          <th>€{{totalen.totaal.toFixed(2)}} </th>
+          </tr>
         </table>
       </div>
       <h6 class="center-align" style="color:white">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten! 🍻</h6>
@@ -52,6 +61,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="main.js"></script>
-  <script src="sheet.js"></script>
 
 </html>

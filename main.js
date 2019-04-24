@@ -5,10 +5,8 @@ let onkosten = 3;
 let app = new Vue({
   el: '#app',
   data: {
-    rows: 0,
-    cols: 0,
-    cell: 0,
     drinkers: [],
+    totalen: [],
   },
   mounted() {
     let url;
@@ -21,6 +19,7 @@ let app = new Vue({
       self.rows = countRows(entry);
       self.cols = countCols(entry);
       self.drinkers = getDrinkers(entry);
+      self.totalen = getTotalen(self.drinkers);
     })
   }
 })
@@ -91,7 +90,7 @@ function getAanwezig(entry, naam) {
 
 // TODO: Make prices variable
 function getKosten(entry, aanwezig) {
-   let kosten = 0.00;
+  let kosten = 0.00;
   let vol = 7.50;
   let half = 5.00;
   let kort = 2.50;
@@ -99,6 +98,31 @@ function getKosten(entry, aanwezig) {
   kosten += aanwezig.half * half;
   kosten += aanwezig.kort * kort;
   return kosten;
+}
+
+function getTotalen(drinkers) {
+  let totalen = [];
+  let vol = 0;
+  let half = 0;
+  let kort = 0;
+  let kosten = 0;
+  let betaald = 0;
+  let totaal = 0;
+  for(drinker of drinkers){
+    vol += drinker.aanwezig.vol;
+    half += drinker.aanwezig.half;
+    kort += drinker.aanwezig.kort;
+    kosten += drinker.kosten;
+    betaald += drinker.betaald;
+    totaal += drinker.totaal;
+  }
+  totalen.vol = vol;
+  totalen.half = half;
+  totalen.kort = kort;
+  totalen.kosten = kosten;
+  totalen.betaald = betaald;
+  totalen.totaal = totaal;
+  return totalen;
 }
 
 function countRows(entry) {
