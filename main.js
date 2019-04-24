@@ -35,6 +35,9 @@ function getDrinkers(entry) {
     let drinker = new Object();
     drinker.naam = getNaam(entry, row);
     drinker.aanwezig = getAanwezig(entry, drinker.naam);
+    drinker.kosten = getKosten(entry, drinker.aanwezig);
+    drinker.betaald = 0;
+    drinker.totaal = drinker.kosten - drinker.betaald;
     drinkers.push(drinker);
   }
   return drinkers;
@@ -84,6 +87,18 @@ function getAanwezig(entry, naam) {
   aanwezig.half = half;
   aanwezig.kort = kort;
   return aanwezig
+}
+
+// TODO: Make prices variable
+function getKosten(entry, aanwezig) {
+   let kosten = 0.00;
+  let vol = 7.50;
+  let half = 5.00;
+  let kort = 2.50;
+  kosten += aanwezig.vol * vol;
+  kosten += aanwezig.half * half;
+  kosten += aanwezig.kort * kort;
+  return kosten;
 }
 
 function countRows(entry) {
