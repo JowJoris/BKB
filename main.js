@@ -7,19 +7,38 @@ let app = new Vue({
   data: {
     drinkers: [],
     totalen: [],
+    terugbetalen: [],
+    betaaldInfo: [],
+    isLoading: true,
+    credEmpty: true
   },
   mounted() {
     let url;
     let self = this;
 
-    //Haal waarden van aanwezig datum op
+    url = createUrl(betaald);
+    $.getJSON(url, function(data){
+      let entry = data.feed.entry;
+      self.rows = countRows(entry);
+      self.cols = countCols(entry);
+      self.betaaldInfo = getBetaaldInfo(entry);
+    })
     url = createUrl(aanwezig);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.rows = countRows(entry);
       self.cols = countCols(entry);
-      self.drinkers = getDrinkers(entry);
+      self.drinkers = getDrinkers(entry, self.betaaldInfo);
       self.totalen = getTotalen(self.drinkers);
+      self.isLoading = false;
+    })
+    url = createUrl(onkosten);
+    $.getJSON(url, function(data) {
+      let entry = data.feed.entry;
+      self.rows = countRows(entry);
+      self.cols = countCols(entry);
+      self.terugbetalen = getTerugbetalen(entry);
+      self.credEmpty = isCredEmpty(self.terugbetalen);
     })
   }
 })
@@ -28,14 +47,35 @@ function createUrl(tab) {
   return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
 }
 
-function getDrinkers(entry) {
+function getBetaaldInfo(entry){
+  let betaaldInfo = [];
+  for (let row = 2; row <= countRows(entry); row++) {
+    let betalende = new Object();
+    for (let i = 0; i < entry.length; i++) {
+      if (entry[i].gs$cell.row == row) {
+        switch (entry[i].gs$cell.col) {
+          case '1':
+            betalende.naam = entry[i].content.$t;
+            break;
+          case '2':
+            betalende.bedrag = Number(entry[i].content.$t.replace('€','').replace(',','.'));
+            break;
+          }
+        }
+      }
+    betaaldInfo.push(betalende);
+  }
+  return betaaldInfo;
+}
+
+function getDrinkers(entry, betaaldInfo) {
   let drinkers = [];
   for (let row = 2; row <= countRows(entry); row++) {
     let drinker = new Object();
     drinker.naam = getNaam(entry, row);
     drinker.aanwezig = getAanwezig(entry, drinker.naam);
-    drinker.kosten = getKosten(entry, drinker.aanwezig);
-    drinker.betaald = 0;
+    drinker.kosten = getDrinkerKosten(entry, drinker.aanwezig);
+    drinker.betaald = getDrinkerBetaald(betaaldInfo, drinker.naam);
     drinker.totaal = drinker.kosten - drinker.betaald;
     drinkers.push(drinker);
   }
@@ -66,7 +106,6 @@ function getAanwezig(entry, naam) {
     }
   }
 
-
   for (let i = 0; i < entry.length; i++) {
     for (let col = 2; col <= countCols(entry); col++) {
       if (entry[i].gs$cell.row == row && entry[i].gs$cell.col == col) {
@@ -89,7 +128,7 @@ function getAanwezig(entry, naam) {
 }
 
 // TODO: Make prices variable
-function getKosten(entry, aanwezig) {
+function getDrinkerKosten(entry, aanwezig) {
   let kosten = 0.00;
   let vol = 7.50;
   let half = 5.00;
@@ -100,6 +139,17 @@ function getKosten(entry, aanwezig) {
   return kosten;
 }
 
+function getDrinkerBetaald(betaaldInfo, naam) {
+  let betaald = 0;
+  for(betalende of betaaldInfo) {
+    if(betalende.bedrag != null && betalende.naam == naam){
+      betaald = betalende.bedrag;
+      break;
+    }
+  }
+  return betaald;
+}
+
 function getTotalen(drinkers) {
   let totalen = [];
   let vol = 0;
@@ -108,7 +158,7 @@ function getTotalen(drinkers) {
   let kosten = 0;
   let betaald = 0;
   let totaal = 0;
-  for(drinker of drinkers){
+  for (drinker of drinkers) {
     vol += drinker.aanwezig.vol;
     half += drinker.aanwezig.half;
     kort += drinker.aanwezig.kort;
@@ -123,6 +173,51 @@ function getTotalen(drinkers) {
   totalen.betaald = betaald;
   totalen.totaal = totaal;
   return totalen;
+}
+
+function getTerugbetalen(entry) {
+  let terugbetalen = [];
+  let row = 0;
+  for (let row = 2; row <= countRows(entry); row++) {
+    let crediteur = new Object();
+    crediteur.info = getCredInfo(entry, row);
+    terugbetalen.push(crediteur);
+  }
+  return terugbetalen;
+}
+
+function getCredInfo(entry, row) {
+  let info = [];
+
+  for (let i = 0; i < entry.length; i++) {
+    if (entry[i].gs$cell.row == row) {
+      switch (entry[i].gs$cell.col) {
+        case '1':
+          info.naam = entry[i].content.$t;
+          break;
+        case '2':
+          info.bedrag = entry[i].content.$t;
+          break;
+        case '3':
+          info.reden = entry[i].content.$t;
+          break;
+        case '4':
+          info.betaald = entry[i].content.$t;
+          break;
+      }
+    }
+  }
+  return info;
+}
+
+function isCredEmpty(terugbetalen) {
+  for (crediteur of terugbetalen) {
+    if (crediteur.info.betaald == '') {
+      return true;
+      break;
+    }
+  }
+  return false;
 }
 
 function countRows(entry) {
