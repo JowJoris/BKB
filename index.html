@@ -48,9 +48,7 @@
         </table>
         <div class="center-align" v-else-if="isLoading != true">
           <h4> Niemand is geld verschuldigt 😭<br> Dit kan echt niet, snel weer harken dus! </h4>
-          <div class="tenor-gif-embed" data-postid="3575784" data-share-method="host" data-width="100%" data-aspect-ratio="1.775"><a href="https://tenor.com/view/rake-leaves-wreckingball-gif-3575784">Raking Ball GIF</a> from <a
-              href="https://tenor.com/search/rake-gifs">Rake GIFs</a></div>
-          <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+          <img src="tenor.gif" width="100%">
         </div>
       </div>
       <h6 class="center-align" style="color:white" v-if="totalen.totaal > 0">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten! 🍻</h6>
@@ -98,15 +96,13 @@
         <style>
           .mapouter {
             position: relative;
-            text-align: right;
-            height: 500px;
+            text-align: center;
             width: 100%;
           }
 
           .gmap_canvas {
             overflow: hidden;
             background: none !important;
-            height: 500px;
             width: 100%;
           }
         </style>
