@@ -17,7 +17,7 @@ let app = new Vue({
     let self = this;
 
     url = createUrl(betaald);
-    $.getJSON(url, function(data){
+    $.getJSON(url, function(data) {
       let entry = data.feed.entry;
       self.rows = countRows(entry);
       self.cols = countCols(entry);
@@ -47,7 +47,7 @@ function createUrl(tab) {
   return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
 }
 
-function getBetaaldInfo(entry){
+function getBetaaldInfo(entry) {
   let betaaldInfo = [];
   for (let row = 2; row <= countRows(entry); row++) {
     let betalende = new Object();
@@ -58,11 +58,11 @@ function getBetaaldInfo(entry){
             betalende.naam = entry[i].content.$t;
             break;
           case '2':
-            betalende.bedrag = Number(entry[i].content.$t.replace('€','').replace(',','.'));
+            betalende.bedrag = Number(entry[i].content.$t.replace('€', '').replace(',', '.'));
             break;
-          }
         }
       }
+    }
     betaaldInfo.push(betalende);
   }
   return betaaldInfo;
@@ -97,7 +97,6 @@ function getAanwezig(entry, naam) {
   let aanwezig = [];
   let vol = 0;
   let half = 0;
-  let kort = 0;
   let row = 0;
   for (let i = 0; i < entry.length; i++) {
     if (entry[i].content.$t == naam) {
@@ -112,18 +111,14 @@ function getAanwezig(entry, naam) {
         if (entry[i].content.$t == 1) {
           vol++;
         }
-        if (entry[i].content.$t == 0.5) {
+        if (entry[i].content.$t == 0.5 || entry[i].content.$t == '0,5') {
           half++;
-        }
-        if (entry[i].content.$t == 0.25) {
-          kort++;
         }
       }
     }
   }
   aanwezig.vol = vol;
   aanwezig.half = half;
-  aanwezig.kort = kort;
   return aanwezig
 }
 
@@ -132,17 +127,15 @@ function getDrinkerKosten(entry, aanwezig) {
   let kosten = 0.00;
   let vol = 7.50;
   let half = 5.00;
-  let kort = 2.50;
   kosten += aanwezig.vol * vol;
   kosten += aanwezig.half * half;
-  kosten += aanwezig.kort * kort;
   return kosten;
 }
 
 function getDrinkerBetaald(betaaldInfo, naam) {
   let betaald = 0;
-  for(betalende of betaaldInfo) {
-    if(betalende.bedrag != null && betalende.naam == naam){
+  for (betalende of betaaldInfo) {
+    if (betalende.bedrag != null && betalende.naam == naam) {
       betaald = betalende.bedrag;
       break;
     }
@@ -159,12 +152,14 @@ function getTotalen(drinkers) {
   let betaald = 0;
   let totaal = 0;
   for (drinker of drinkers) {
-    vol += drinker.aanwezig.vol;
-    half += drinker.aanwezig.half;
-    kort += drinker.aanwezig.kort;
-    kosten += drinker.kosten;
-    betaald += drinker.betaald;
-    totaal += drinker.totaal;
+    if (drinker.totaal != 0) {
+      vol += drinker.aanwezig.vol;
+      half += drinker.aanwezig.half;
+      kort += drinker.aanwezig.kort;
+      kosten += drinker.kosten;
+      betaald += drinker.betaald;
+      totaal += drinker.totaal;
+    }
   }
   totalen.vol = vol;
   totalen.half = half;
