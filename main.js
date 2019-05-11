@@ -6,7 +6,8 @@ let app = new Vue({
   el: '#app',
   data: {
     drinkers: [],
-    totalen: [],
+    drinkerstotalen: [],
+    kostenTotaal: '',
     terugbetalen: [],
     betaaldInfo: [],
     isLoading: true,
@@ -29,7 +30,7 @@ let app = new Vue({
       self.rows = countRows(entry);
       self.cols = countCols(entry);
       self.drinkers = getDrinkers(entry, self.betaaldInfo);
-      self.totalen = getTotalen(self.drinkers);
+      self.drinkerstotalen = getDrinkersTotalen(self.drinkers);
       self.isLoading = false;
     });
     url = createUrl(onkosten);
@@ -38,10 +39,12 @@ let app = new Vue({
       self.rows = countRows(entry);
       self.cols = countCols(entry);
       self.terugbetalen = getTerugbetalen(entry);
+      self.kostenTotaal = getKostenTotaal(self.terugbetalen);
       self.credEmpty = isCredEmpty(self.terugbetalen);
     });
   }
 })
+
 
 function createUrl(tab) {
   return 'https://spreadsheets.google.com/feeds/cells/1UivtJswE_PLcLG2c4MdsHEou9Uvq1uL0s0eFTokJs6E/' + tab + '/public/values?alt=json';
@@ -143,7 +146,7 @@ function getDrinkerBetaald(betaaldInfo, naam) {
   return betaald;
 }
 
-function getTotalen(drinkers) {
+function getDrinkersTotalen(drinkers) {
   let totalen = [];
   let vol = 0;
   let half = 0;
@@ -168,6 +171,16 @@ function getTotalen(drinkers) {
   totalen.betaald = betaald;
   totalen.totaal = totaal;
   return totalen;
+}
+
+function getKostenTotaal(terugbetalen) {
+  let totaal = 0.00;
+  for (crediteur of terugbetalen) {
+    if (crediteur.info.betaald == null) {
+      totaal += parseFloat(crediteur.info.bedrag.replace('€','').replace(',','.'));
+    }
+  }
+  return totaal;
 }
 
 function getTerugbetalen(entry) {

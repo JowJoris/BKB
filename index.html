@@ -17,7 +17,7 @@
     <div class="card-panel teal lighten-2" style="margin-top:0">
       <div class="card-panel">
         <h2> Gezopen lijst 🍻</h2>
-        <table v-if="totalen.totaal > 0">
+        <table v-if="drinkerstotalen.totaal > 0">
           <tr>
             <th> Naam </th>
             <th> Volledig </th>
@@ -36,11 +36,11 @@
           </tr>
           <tr>
             <th> Totaal </th>
-            <th> {{totalen.vol}} </th>
-            <th> {{totalen.half}} </th>
-            <th>€{{totalen.kosten.toFixed(2)}} </th>
-            <th>€{{totalen.betaald.toFixed(2)}} </th>
-            <th>€{{totalen.totaal.toFixed(2)}} </th>
+            <th> {{drinkerstotalen.vol}} </th>
+            <th> {{drinkerstotalen.half}} </th>
+            <th>€{{drinkerstotalen.kosten.toFixed(2)}} </th>
+            <th>€{{drinkerstotalen.betaald.toFixed(2)}} </th>
+            <th>€{{drinkerstotalen.totaal.toFixed(2)}} </th>
           </tr>
         </table>
         <div class="center-align" v-else-if="isLoading != true">
@@ -48,7 +48,7 @@
           <img src="tenor.gif" width="100%">
         </div>
       </div>
-      <h6 class="center-align" style="color:white" v-if="totalen.totaal > 0">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten! 🍻</h6>
+      <h6 class="center-align" style="color:white" v-if="drinkerstotalen.totaal > 0">Sta je niet in de lijst? Dan wordt het gauw tijd dat je weer langs komt want, je hebt geen openstaande kosten! 🍻</h6>
     </div>
     <div class="container">
       <h6 class="center-align"> Betalen kan op het volgende rekening nummer: </h6>
@@ -72,6 +72,10 @@
             <td> {{crediteur.info.naam}} </td>
             <td>{{crediteur.info.bedrag.replace(',','.')}}</td>
             <td> {{crediteur.info.reden}} </td>
+          </tr>
+          <tr>
+            <th> Totaal </th>
+            <th> €{{kostenTotaal}} </th>
           </tr>
         </table>
         <h4 v-else>Iedereen is terugbetaald!</h4>
