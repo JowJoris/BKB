@@ -22,7 +22,7 @@ let app = new Vue({
       self.rows = countRows(entry);
       self.cols = countCols(entry);
       self.betaaldInfo = getBetaaldInfo(entry);
-    })
+    });
     url = createUrl(aanwezig);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
@@ -31,7 +31,7 @@ let app = new Vue({
       self.drinkers = getDrinkers(entry, self.betaaldInfo);
       self.totalen = getTotalen(self.drinkers);
       self.isLoading = false;
-    })
+    });
     url = createUrl(onkosten);
     $.getJSON(url, function(data) {
       let entry = data.feed.entry;
@@ -39,7 +39,7 @@ let app = new Vue({
       self.cols = countCols(entry);
       self.terugbetalen = getTerugbetalen(entry);
       self.credEmpty = isCredEmpty(self.terugbetalen);
-    })
+    });
   }
 })
 
