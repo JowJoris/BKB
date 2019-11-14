@@ -29,8 +29,19 @@ let app = new Vue({
       let entry = data.feed.entry;
       self.rows = countRows(entry);
       self.cols = countCols(entry);
+      if(self.betaaldInfo.length != 0){
       self.drinkers = getDrinkers(entry, self.betaaldInfo);
       self.drinkerstotalen = getDrinkersTotalen(self.drinkers);
+    } else {
+      url = createUrl(aanwezig);
+      $.getJSON(url, function(data) {
+        let entry = data.feed.entry;
+        self.rows = countRows(entry);
+        self.cols = countCols(entry);
+        self.drinkers = getDrinkers(entry, self.betaaldInfo);
+        self.drinkerstotalen = getDrinkersTotalen(self.drinkers);
+      });
+    }
       self.isLoading = false;
     });
     url = createUrl(onkosten);
