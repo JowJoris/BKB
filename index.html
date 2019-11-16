@@ -22,9 +22,9 @@
             <th> Naam </th>
             <th> Volledig </th>
             <th> Half </th>
-            <th> Kosten </th>
-            <th> Betaald </th>
-            <th> Totaal </th>
+            <th> Totale kosten </th>
+            <th> Al betaald </th>
+            <th> Verschuldigt </th>
           </tr>
           <tr v-for="drinker in drinkers" v-if="isLoading != true && drinker.totaal > 0">
             <td>{{drinker.naam.replace('.', '')}}</td>
